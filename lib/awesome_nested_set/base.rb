@@ -52,8 +52,8 @@ module CollectiveIdea #:nodoc:
               options[:scope] = "#{options[:scope]}_id".intern
             end
 
-            write_inheritable_attribute :acts_as_nested_set_options, options
-            class_inheritable_reader :acts_as_nested_set_options
+            class_attribute :acts_as_nested_set_options
+            self.acts_as_nested_set_options = options
 
             unless self.is_a?(ClassMethods)
               include Comparable
@@ -97,7 +97,7 @@ module CollectiveIdea #:nodoc:
               }
               scope :leaves, lambda {
                 where("#{quoted_right_column_name} - #{quoted_left_column_name} = 1").
-                order(quoted_left_column_name) 
+                order(quoted_left_column_name)
               }
               scope :with_depth, proc {|level| where(:depth => level).order("lft") }
 
